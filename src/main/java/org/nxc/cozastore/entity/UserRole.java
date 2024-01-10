@@ -34,14 +34,14 @@ public class UserRole implements Serializable {
     private Role role;
 
     @ToString.Include
-    @Column(name = "create_date", nullable = false)
-    private LocalDateTime createDate;
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
-    public UserRole(UserRoleId id, User user, Role role, LocalDateTime createDate) {
+    public UserRole(UserRoleId id, User user, Role role, LocalDateTime createdAt) {
         this.id = new UserRoleId(user.getId(), role.getId());
         setUser(user);
         setRole(role);
-        this.createDate = createDate;
+        this.createdAt = createdAt;
     }
 
     public void setUser(User user) {

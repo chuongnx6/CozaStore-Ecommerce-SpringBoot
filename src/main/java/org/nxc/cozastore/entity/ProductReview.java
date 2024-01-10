@@ -46,17 +46,17 @@ public class ProductReview implements Serializable {
     private String review;
 
     @ToString.Include
-    @Column(name = "create_date", nullable = false)
-    private LocalDateTime createDate;
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
-    public ProductReview(ProductReviewId id, Product product, User user, Integer rate, String title, String review, LocalDateTime createDate) {
+    public ProductReview(ProductReviewId id, Product product, User user, Integer rate, String title, String review, LocalDateTime createdAt) {
         this.id = new ProductReviewId(user.getId(), product.getId());
         setProduct(product);
         setUser(user);
         this.rate = rate;
         this.title = title;
         this.review = review;
-        this.createDate = createDate;
+        this.createdAt = createdAt;
     }
 
     public void setProduct(Product product) {

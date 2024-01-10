@@ -28,8 +28,8 @@ public class Order implements Serializable {
     private Double shippingCost;
 
     @ToString.Include
-    @Column(name = "create_date", nullable = false)
-    private LocalDateTime createDate;
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
     @ToString.Include
     @EqualsAndHashCode.Include

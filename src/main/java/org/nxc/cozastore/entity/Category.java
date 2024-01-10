@@ -3,7 +3,6 @@ package org.nxc.cozastore.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.nxc.cozastore.util.DatabaseUtil;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -34,8 +33,8 @@ public class Category implements Serializable {
     private String description;
 
     @ToString.Include
-    @Column(name = "create_date", nullable = false)
-    private LocalDateTime createDate;
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
     @ToString.Include
     @Column(name = "is_active", nullable = false)

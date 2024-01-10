@@ -26,8 +26,12 @@ public class User implements Serializable {
     private Integer id;
 
     @ToString.Include
-    @Column(name = "name", nullable = false, length = 64)
-    private String name;
+    @Column(name = "fist_name", nullable = false, length = 32)
+    private String firstName;
+
+    @ToString.Include
+    @Column(name = "last_name", nullable = false, length = 32)
+    private String lastName;
 
     @ToString.Include
     @EqualsAndHashCode.Include
@@ -40,13 +44,12 @@ public class User implements Serializable {
     private String phone;
 
     @ToString.Include
-    @Getter(value = AccessLevel.NONE)
     @Column(name = "password", nullable = false, length = 64)
     private String password;
 
     @ToString.Include
-    @Column(name = "create_date", nullable = false)
-    private LocalDateTime createDate;
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
     @ToString.Include
     @Column(name = "is_active", nullable = false)
@@ -65,11 +68,8 @@ public class User implements Serializable {
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "user_role",
-    joinColumns = @JoinColumn(name = "user_id"),
-    inverseJoinColumns = @JoinColumn(name = "role_id"))
-    Set<Role> roleSet;
+    @OneToMany(mappedBy = "user")
+    private Set<UserRole> userRoleSet;
 
     @OneToMany(mappedBy = "user")
     private Set<Cart> cartSet;

@@ -33,8 +33,8 @@ public class Payment implements Serializable {
     private String description;
 
     @ToString.Include
-    @Column(name = "create_date", nullable = false)
-    private LocalDateTime createDate;
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "payment")
     private Set<Order> orderSet;
