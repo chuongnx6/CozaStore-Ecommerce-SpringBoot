@@ -11,39 +11,35 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 //@AllArgsConstructor
-@ToString(onlyExplicitlyIncluded = true)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(schema = DatabaseUtil.SCHEMA, name = "cart")
 public class Cart implements Serializable {
-    @ToString.Include
     @EqualsAndHashCode.Include
     @EmbeddedId
     @Setter(AccessLevel.NONE)
     private CartId id;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne
     @MapsId("userId")
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @MapsId("productId")
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @ManyToOne
+    @MapsId("productAttributeId")
+    @JoinColumn(name = "product_attribute_id")
+    private ProductAttribute productAttribute;
 
-    @ToString.Include
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-    @ToString.Include
     @Column(name = "price", nullable = false)
     private Double price;
 
-    public Cart(CartId id, User user, Product product, Integer quantity, Double price) {
-        this.id = new CartId(user.getId(), product.getId());
+    public Cart(CartId id, User user, ProductAttribute productAttribute, Integer quantity, Double price) {
+        this.id = new CartId(user.getId(), productAttribute.getId());
         setUser(user);
-        setProduct(product);
+        setProductAttribute(productAttribute);
         this.quantity = quantity;
         this.price = price;
     }
@@ -53,8 +49,8 @@ public class Cart implements Serializable {
         this.user = user;
     }
 
-    public void setProduct(Product product) {
-        id.setProductId(product.getId());
-        this.product = product;
+    public void setProductAttribute(ProductAttribute productAttribute) {
+        id.setProductAttributeId(productAttribute.getId());
+        this.productAttribute = productAttribute;
     }
 }

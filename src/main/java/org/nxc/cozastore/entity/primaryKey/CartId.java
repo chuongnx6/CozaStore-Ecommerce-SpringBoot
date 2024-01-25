@@ -14,6 +14,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Embeddable
 public class CartId implements Serializable {
-    private Integer userId;
-    private Integer productId;
+    private String userId;
+    private String productAttributeId;
 }

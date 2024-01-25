@@ -14,6 +14,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Embeddable
 public class ProductReviewId implements Serializable {
-    private Integer productId;
-    private Integer userId;
+    private String productId;
+    private String userId;
 }

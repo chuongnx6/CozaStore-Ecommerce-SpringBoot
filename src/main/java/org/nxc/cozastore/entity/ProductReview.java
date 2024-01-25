@@ -12,45 +12,39 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 //@AllArgsConstructor
-@ToString(onlyExplicitlyIncluded = true)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(schema = DatabaseUtil.SCHEMA, name = "product_review")
 public class ProductReview implements Serializable {
-    @ToString.Include
     @EqualsAndHashCode.Include
     @EmbeddedId
     @Setter(AccessLevel.NONE)
     private ProductReviewId id;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne
     @MapsId("productId")
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne
     @MapsId("userId")
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ToString.Include
     @Column(name = "rate", nullable = false)
     private Integer rate;
 
-    @ToString.Include
     @Column(name = "title", nullable = false, length = 64)
     private String title;
 
-    @ToString.Include
     @Column(name = "review", nullable = false)
     private String review;
 
-    @ToString.Include
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
     public ProductReview(ProductReviewId id, Product product, User user, Integer rate, String title, String review, LocalDateTime createdAt) {
-        this.id = new ProductReviewId(user.getId(), product.getId());
+        this.id = new ProductReviewId(product.getId(), user.getId());
         setProduct(product);
         setUser(user);
         this.rate = rate;

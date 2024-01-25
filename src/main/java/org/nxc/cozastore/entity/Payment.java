@@ -2,40 +2,38 @@ package org.nxc.cozastore.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 import org.nxc.cozastore.util.DatabaseUtil;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(onlyExplicitlyIncluded = true)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(schema = DatabaseUtil.SCHEMA, name = "payment")
 public class Payment implements Serializable {
-    @ToString.Include
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @Column(name = "id", length = 36)
+    private String id;
 
-    @ToString.Include
     @EqualsAndHashCode.Include
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "name", nullable = false, unique = true, length = 32)
     private String name;
 
-    @ToString.Include
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
 
-    @ToString.Include
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "payment")
-    private Set<Order> orderSet;
+    private List<Order> orderList;
 }

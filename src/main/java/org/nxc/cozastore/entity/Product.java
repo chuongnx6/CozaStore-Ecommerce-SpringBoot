@@ -2,70 +2,60 @@ package org.nxc.cozastore.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 import org.nxc.cozastore.util.DatabaseUtil;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(onlyExplicitlyIncluded = true)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(schema = DatabaseUtil.SCHEMA, name = "product")
 public class Product implements Serializable {
-    @ToString.Include
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @Column(name = "id", length = 36)
+    private String id;
 
-    @ToString.Include
     @EqualsAndHashCode.Include
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "name", nullable = false, unique = true, length = 64)
     private String name;
 
     @EqualsAndHashCode.Include
-    @Column(name = "alias")
-    private String alias;
+    @Column(name = "sku", nullable = false, unique = true, length = 32)
+    private String sku;
 
-    @ToString.Include
-    @Column(name = "price", nullable = false)
-    private Double price;
-
-    @ToString.Include
-    @Column(name = "main_image", nullable = false)
-    private String mainImage;
-
-    @ToString.Include
-    @Column(name = "short_description")
+    @Column(name = "short_description", nullable = false)
     private String shortDescription;
 
-    @ToString.Include
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     private String description;
 
-    @ToString.Include
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    @ToString.Include
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "product")
-    private Set<Cart> cartSet;
+    private List<ProductAttribute> productAttributeList;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "product")
-    private Set<OrderLine> orderLineSet;
+    private List<ProductImage> productImageList;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "product")
-    private Set<ProductReview> productReviewSet;
+    private List<ProductReview> productReviewList;
 }

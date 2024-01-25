@@ -11,43 +11,38 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 //@AllArgsConstructor
-@ToString(onlyExplicitlyIncluded = true)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(schema = DatabaseUtil.SCHEMA, name = "order_line")
 public class OrderLine implements Serializable {
-    @ToString.Include
     @EqualsAndHashCode.Include
     @EmbeddedId
     @Setter(AccessLevel.NONE)
     private OrderLineId id;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne
     @MapsId("orderId")
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @MapsId("productId")
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @ManyToOne
+    @MapsId("productAttributeId")
+    @JoinColumn(name = "product_attribute_id")
+    private ProductAttribute productAttribute;
 
-    @ToString.Include
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-    @ToString.Include
     @Column(name = "price", nullable = false)
     private Double price;
 
-    @ToString.Include
     @Column(name = "discount", nullable = false)
     private Double discount;
 
-    public OrderLine(OrderLineId id, Order order, Product product, Integer quantity, Double price, Double discount) {
-        this.id = new OrderLineId(order.getId(), product.getId());
+    public OrderLine(OrderLineId id, Order order, ProductAttribute productAttribute, Integer quantity, Double price, Double discount) {
+        this.id = new OrderLineId(order.getId(), productAttribute.getId());
         setOrder(order);
-        setProduct(product);
+        setProductAttribute(productAttribute);
         this.quantity = quantity;
         this.price = price;
         this.discount = discount;
@@ -58,8 +53,8 @@ public class OrderLine implements Serializable {
         this.order = order;
     }
 
-    public void setProduct(Product product) {
-        id.setProductId(product.getId());
-        this.product = product;
+    public void setProductAttribute(ProductAttribute productAttribute) {
+        id.setProductAttributeId(productAttribute.getId());
+        this.productAttribute = productAttribute;
     }
 }

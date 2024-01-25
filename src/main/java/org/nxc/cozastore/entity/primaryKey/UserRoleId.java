@@ -14,6 +14,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Embeddable
 public class UserRoleId implements Serializable {
-    private Integer userId;
-    private Integer roleId;
+    private String userId;
+    private String roleId;
 }

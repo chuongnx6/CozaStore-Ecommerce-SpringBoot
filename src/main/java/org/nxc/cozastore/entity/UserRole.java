@@ -12,28 +12,25 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 //@AllArgsConstructor
-@ToString(onlyExplicitlyIncluded = true)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(schema = DatabaseUtil.SCHEMA, name = "user_role")
 public class UserRole implements Serializable {
-    @ToString.Include
     @EqualsAndHashCode.Include
     @EmbeddedId
     @Setter(AccessLevel.NONE)
     private UserRoleId id;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne
     @MapsId("userId")
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne
     @MapsId("roleId")
     @JoinColumn(name = "role_id")
     private Role role;
 
-    @ToString.Include
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
